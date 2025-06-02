@@ -16,23 +16,19 @@ export default function Header() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           <div className="flex items-center space-x-4">
-            <Link href="/">
-              <a className="flex items-center space-x-2">
-                <i className="fas fa-chart-line text-2xl text-primary"></i>
-                <h1 className="text-xl font-bold text-foreground">Texas Bond Explorer</h1>
-              </a>
+            <Link href="/" className="flex items-center space-x-2">
+              <i className="fas fa-chart-line text-2xl text-primary"></i>
+              <h1 className="text-xl font-bold text-foreground">Texas Bond Explorer</h1>
             </Link>
             <nav className="hidden md:flex space-x-6 ml-8">
               {navItems.map((item) => (
-                <Link key={item.path} href={item.path}>
-                  <a className={`flex items-center space-x-2 pb-4 transition-colors ${
-                    location === item.path || (location === "/" && item.path === "/dashboard")
-                      ? "text-primary font-medium border-b-2 border-primary"
-                      : "text-muted-foreground hover:text-foreground"
-                  }`}>
-                    <i className={`fas ${item.icon} text-sm`}></i>
-                    <span>{item.label}</span>
-                  </a>
+                <Link key={item.path} href={item.path} className={`flex items-center space-x-2 pb-4 transition-colors ${
+                  location === item.path || (location === "/" && item.path === "/dashboard")
+                    ? "text-primary font-medium border-b-2 border-primary"
+                    : "text-muted-foreground hover:text-foreground"
+                }`}>
+                  <i className={`fas ${item.icon} text-sm`}></i>
+                  <span>{item.label}</span>
                 </Link>
               ))}
             </nav>
