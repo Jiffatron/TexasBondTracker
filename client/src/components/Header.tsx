@@ -10,6 +10,8 @@ export default function Header() {
     { path: "/isds", label: "School Districts", icon: "fa-school" },
     { path: "/cities", label: "Cities & Counties", icon: "fa-city" },
     { path: "/audit-parser", label: "Audit Parser", icon: "fa-file-pdf" },
+    { path: "/isd-explorer", label: "ISD Explorer", icon: "fa-compass" },
+    { path: "/top-taxpayers", label: "Top Taxpayers", icon: "fa-building" },
   ];
 
   return (

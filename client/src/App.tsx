@@ -8,6 +8,8 @@ import BondTracker from "@/pages/BondTracker";
 import SchoolDistricts from "@/pages/SchoolDistricts";
 import CitiesCounties from "@/pages/CitiesCounties";
 import AuditParser from "@/pages/AuditParser";
+import ISDExplorer from "@/pages/ISDExplorer";
+import TopTaxpayers from "@/pages/TopTaxpayers";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -19,6 +21,8 @@ function Router() {
       <Route path="/isds" component={SchoolDistricts} />
       <Route path="/cities" component={CitiesCounties} />
       <Route path="/audit-parser" component={AuditParser} />
+      <Route path="/isd-explorer" component={ISDExplorer} />
+      <Route path="/top-taxpayers" component={TopTaxpayers} />
       <Route component={NotFound} />
     </Switch>
   );

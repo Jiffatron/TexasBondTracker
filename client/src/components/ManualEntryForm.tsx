@@ -24,7 +24,7 @@ export default function ManualEntryForm({ initialData, onDataChange }: ManualEnt
     setFormData(prev => ({
       ...prev,
       [section]: {
-        ...prev[section],
+        ...(prev[section] as any),
         [field]: numericValue
       }
     }));
