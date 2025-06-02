@@ -34,13 +34,24 @@ export default function PDFAuditParser() {
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
-    if (file && file.type === 'application/pdf') {
-      setSelectedFile(file);
-      setError(null);
-      setExtractedData(null);
-    } else {
+    if (!file) return;
+
+    // Validate file type
+    if (file.type !== 'application/pdf') {
       setError('Please select a valid PDF file.');
+      return;
     }
+
+    // Validate file size (10MB limit)
+    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    if (file.size > maxSize) {
+      setError('File size must be less than 10MB.');
+      return;
+    }
+
+    setSelectedFile(file);
+    setError(null);
+    setExtractedData(null);
   };
 
   const handleUpload = async () => {

@@ -19,7 +19,12 @@ export default function ManualEntryForm({ initialData, onDataChange }: ManualEnt
   const parser = new AuditPDFParser();
 
   const handleInputChange = (section: keyof ExtractedFinancialData, field: string, value: string) => {
-    const numericValue = parseFloat(value) || 0;
+    // Validate numeric input - allow empty string, numbers, and decimal points
+    if (value !== '' && !/^\d*\.?\d*$/.test(value)) {
+      return; // Reject invalid input
+    }
+    
+    const numericValue = value === '' ? 0 : parseFloat(value) || 0;
     
     setFormData(prev => ({
       ...prev,

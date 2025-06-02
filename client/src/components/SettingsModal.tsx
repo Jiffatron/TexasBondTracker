@@ -157,7 +157,7 @@ export default function SettingsModal({ compactJSON, onCompactJSONChange }: Sett
             <CardContent>
               <div className="text-sm space-y-2">
                 <p>
-                  <span className="font-medium">Texas ISD Audit Parser</span>
+                  <span className="font-medium">Texas ISD Audit Parser v1.0.0</span>
                 </p>
                 <p className="text-muted-foreground">
                   Client-side PDF parsing tool for extracting financial data from Texas Independent School District audit reports.
@@ -167,6 +167,9 @@ export default function SettingsModal({ compactJSON, onCompactJSONChange }: Sett
                   <span>✓ No Server Required</span>
                   <span>✓ Local Storage</span>
                 </div>
+                <p className="text-xs text-muted-foreground border-t pt-2">
+                  Built with React + Vite | PDF.js | TypeScript
+                </p>
               </div>
             </CardContent>
           </Card>
