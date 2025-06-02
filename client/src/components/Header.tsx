@@ -9,6 +9,7 @@ export default function Header() {
     { path: "/bonds", label: "Bond Tracker", icon: "fa-search" },
     { path: "/isds", label: "School Districts", icon: "fa-school" },
     { path: "/cities", label: "Cities & Counties", icon: "fa-city" },
+    { path: "/audit-parser", label: "Audit Parser", icon: "fa-file-pdf" },
   ];
 
   return (

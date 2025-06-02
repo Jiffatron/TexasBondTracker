@@ -10,31 +10,31 @@ export default function TexasMap({ mapView, onMapViewChange }: TexasMapProps) {
   return (
     <Card>
       <CardHeader>
-        <div className="flex items-center justify-between">
+        <div className="text-center mb-4">
           <CardTitle>Texas Municipal Bond Map</CardTitle>
-          <div className="flex items-center space-x-2">
-            <Button
-              variant={mapView === "debt" ? "default" : "outline"}
-              size="sm"
-              onClick={() => onMapViewChange("debt")}
-            >
-              Debt Amount
-            </Button>
-            <Button
-              variant={mapView === "rating" ? "default" : "outline"}
-              size="sm"
-              onClick={() => onMapViewChange("rating")}
-            >
-              Credit Rating
-            </Button>
-            <Button
-              variant={mapView === "perCapita" ? "default" : "outline"}
-              size="sm"
-              onClick={() => onMapViewChange("perCapita")}
-            >
-              Per Capita
-            </Button>
-          </div>
+        </div>
+        <div className="flex items-center justify-center space-x-2">
+          <Button
+            variant={mapView === "debt" ? "default" : "outline"}
+            size="sm"
+            onClick={() => onMapViewChange("debt")}
+          >
+            Debt Amount
+          </Button>
+          <Button
+            variant={mapView === "rating" ? "default" : "outline"}
+            size="sm"
+            onClick={() => onMapViewChange("rating")}
+          >
+            Credit Rating
+          </Button>
+          <Button
+            variant={mapView === "perCapita" ? "default" : "outline"}
+            size="sm"
+            onClick={() => onMapViewChange("perCapita")}
+          >
+            Per Capita
+          </Button>
         </div>
       </CardHeader>
       <CardContent>

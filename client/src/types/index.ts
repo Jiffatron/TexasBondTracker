@@ -38,3 +38,30 @@ export interface RatingDistribution {
   count: number;
   percentage: number;
 }
+
+export interface ExtractedFinancialData {
+  netPosition: {
+    totalAssets: number;
+    totalLiabilities: number;
+    netPosition: number;
+  };
+  fundBalance: {
+    generalFund: number;
+    debtServiceFund: number;
+    totalFundBalance?: number;
+  };
+  revenues: {
+    local: number;
+    state: number;
+    federal: number;
+    total?: number;
+  };
+  expenditures: {
+    instruction: number;
+    admin: number;
+    debtService: number;
+    total?: number;
+  };
+  districtName?: string;
+  fiscalYear?: string;
+}
