@@ -27,6 +27,8 @@ export default function PDFAuditParser() {
   const [extractedData, setExtractedData] = useState<ExtractedFinancialData | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [processingProgress, setProcessingProgress] = useState(0);
+  const [debugInfo, setDebugInfo] = useState<DebugInfo | null>(null);
+  const [compactJSON, setCompactJSON] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
   const parser = new AuditPDFParser();
 
@@ -59,8 +61,35 @@ export default function PDFAuditParser() {
       clearInterval(progressInterval);
       setProcessingProgress(100);
       setExtractedData(data);
+
+      // Save report to localStorage
+      ReportStorage.saveReport(selectedFile.name, data);
+
+      // Create debug information (mock for now - would be enhanced in real parser)
+      const mockDebugInfo: DebugInfo = {
+        rawText: `Sample PDF text for ${selectedFile.name}...`,
+        sectionMatches: [
+          { section: 'Statement of Net Position', found: true, position: 145 },
+          { section: 'Statement of Activities', found: true, position: 2341 },
+          { section: 'Fund Balance Sheet', found: true, position: 4523 },
+          { section: 'Statement of Revenues', found: true, position: 6234 }
+        ],
+        regexMatches: [
+          { pattern: '/total assets.*?\\$([\\d,]+)/i', matches: [data.netPosition.totalAssets.toString()] },
+          { pattern: '/total liabilities.*?\\$([\\d,]+)/i', matches: [data.netPosition.totalLiabilities.toString()] }
+        ],
+        errors: []
+      };
+      setDebugInfo(mockDebugInfo);
     } catch (err) {
       setError(err instanceof Error ? err.message : 'An error occurred while processing the PDF.');
+      const errorDebugInfo: DebugInfo = {
+        rawText: '',
+        sectionMatches: [],
+        regexMatches: [],
+        errors: [err instanceof Error ? err.message : 'Unknown error']
+      };
+      setDebugInfo(errorDebugInfo);
     } finally {
       setIsProcessing(false);
       setProcessingProgress(0);
@@ -71,6 +100,18 @@ export default function PDFAuditParser() {
     if (extractedData) {
       parser.exportToJSON(extractedData);
     }
+  };
+
+  const handleExportCSV = () => {
+    if (extractedData) {
+      ReportStorage.exportCSV(extractedData);
+    }
+  };
+
+  const handleReportLoad = (data: ExtractedFinancialData) => {
+    setExtractedData(data);
+    setSelectedFile(null);
+    setError(null);
   };
 
   const formatCurrency = (amount: number) => {
@@ -92,18 +133,30 @@ export default function PDFAuditParser() {
   };
 
   return (
-    <div className="space-y-6">
-      {/* Upload Section */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <i className="fas fa-file-pdf text-red-500"></i>
-            Texas ISD Audit PDF Parser
-          </CardTitle>
-          <p className="text-sm text-muted-foreground">
-            Upload a Texas Independent School District audit PDF to extract key financial data
-          </p>
-        </CardHeader>
+    <TooltipProvider>
+      <div className="space-y-6">
+        {/* Previous Reports Section */}
+        <PreviousReports onReportLoad={handleReportLoad} />
+
+        {/* Upload Section */}
+        <Card>
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <i className="fas fa-file-pdf text-red-500"></i>
+                  Texas ISD Audit PDF Parser
+                </CardTitle>
+                <p className="text-sm text-muted-foreground">
+                  Upload a Texas Independent School District audit PDF to extract key financial data
+                </p>
+              </div>
+              <SettingsModal 
+                compactJSON={compactJSON} 
+                onCompactJSONChange={setCompactJSON}
+              />
+            </div>
+          </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid w-full max-w-sm items-center gap-1.5">
             <label htmlFor="pdf-upload" className="text-sm font-medium">
@@ -173,10 +226,16 @@ export default function PDFAuditParser() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle>Extracted Financial Data</CardTitle>
-              <Button onClick={handleExportJSON} variant="outline" size="sm">
-                <i className="fas fa-download mr-2"></i>
-                Export JSON
-              </Button>
+              <div className="flex gap-2">
+                <Button onClick={handleExportJSON} variant="outline" size="sm">
+                  <i className="fas fa-download mr-2"></i>
+                  Export JSON
+                </Button>
+                <Button onClick={handleExportCSV} variant="outline" size="sm">
+                  <i className="fas fa-file-csv mr-2"></i>
+                  Export CSV
+                </Button>
+              </div>
             </div>
             {extractedData.districtName && (
               <p className="text-sm text-muted-foreground">
@@ -303,6 +362,18 @@ export default function PDFAuditParser() {
           </CardContent>
         </Card>
       )}
+
+      {/* Manual Entry Form */}
+      {extractedData && (
+        <ManualEntryForm 
+          initialData={extractedData} 
+          onDataChange={setExtractedData}
+        />
+      )}
+
+      {/* Debug Panel */}
+      <DebugPanel debugInfo={debugInfo} />
     </div>
+    </TooltipProvider>
   );
 }
