@@ -64,7 +64,7 @@ export default function BondTracker() {
                     <SelectValue placeholder="All Types" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Types</SelectItem>
+                    <SelectItem value="all">All Types</SelectItem>
                     <SelectItem value="GO">General Obligation</SelectItem>
                     <SelectItem value="Revenue">Revenue Bonds</SelectItem>
                     <SelectItem value="CO">Certificate of Obligation</SelectItem>
@@ -79,7 +79,7 @@ export default function BondTracker() {
                     <SelectValue placeholder="All Maturities" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Maturities</SelectItem>
+                    <SelectItem value="all">All Maturities</SelectItem>
                     <SelectItem value="1-5">1-5 Years</SelectItem>
                     <SelectItem value="5-10">5-10 Years</SelectItem>
                     <SelectItem value="10-20">10-20 Years</SelectItem>
@@ -94,7 +94,7 @@ export default function BondTracker() {
                     <SelectValue placeholder="All Yields" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Yields</SelectItem>
+                    <SelectItem value="all">All Yields</SelectItem>
                     <SelectItem value="0-2">0-2%</SelectItem>
                     <SelectItem value="2-4">2-4%</SelectItem>
                     <SelectItem value="4-6">4-6%</SelectItem>

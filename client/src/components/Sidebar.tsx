@@ -31,6 +31,10 @@ export default function Sidebar({ filters, onFiltersChange }: SidebarProps) {
     onFiltersChange({ ...filters, minDebt: value[0] * 1000000 }); // Convert to actual value
   };
 
+  const handleRegionChange = (value: string) => {
+    onFiltersChange({ ...filters, region: value === "all" ? "" : value });
+  };
+
   return (
     <aside className="w-80 bg-white dark:bg-gray-900 shadow-sm border-r border-border flex-shrink-0">
       <div className="p-6">
@@ -128,12 +132,12 @@ export default function Sidebar({ filters, onFiltersChange }: SidebarProps) {
           {/* Region */}
           <div>
             <h3 className="font-medium text-foreground mb-3">Texas Region</h3>
-            <Select value={filters.region} onValueChange={(value) => onFiltersChange({ ...filters, region: value })}>
+            <Select value={filters.region || "all"} onValueChange={handleRegionChange}>
               <SelectTrigger>
                 <SelectValue placeholder="All Regions" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Regions</SelectItem>
+                <SelectItem value="all">All Regions</SelectItem>
                 <SelectItem value="North Texas">North Texas</SelectItem>
                 <SelectItem value="East Texas">East Texas</SelectItem>
                 <SelectItem value="Central Texas">Central Texas</SelectItem>
