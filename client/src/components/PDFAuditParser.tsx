@@ -5,8 +5,21 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Alert, AlertDescription } from "@/components/ui/alert";
+import { TooltipProvider } from "@/components/ui/tooltip";
 import { AuditPDFParser } from "@/utils/pdfParser";
+import { ReportStorage } from "@/utils/reportStorage";
 import { ExtractedFinancialData } from "@/types";
+import ManualEntryForm from "./ManualEntryForm";
+import PreviousReports from "./PreviousReports";
+import DebugPanel from "./DebugPanel";
+import SettingsModal from "./SettingsModal";
+
+interface DebugInfo {
+  rawText: string;
+  sectionMatches: { section: string; found: boolean; position?: number }[];
+  regexMatches: { pattern: string; matches: string[] }[];
+  errors: string[];
+}
 
 export default function PDFAuditParser() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);

@@ -1,0 +1,85 @@
+I'm building a client-side React + Vite web app that parses Texas ISD audit PDFs using pdfjs-dist and displays structured financial data. Everything is already working for:
+
+File upload
+
+PDF parsing (Net Position, Revenues, Expenditures, etc.)
+
+JSON export
+
+GitHub Pages compatibility
+
+Now I want to extend and future-proof the app before deployment. Please do the following:
+
+🧩 1. Add Manual Entry Fallback UI
+Below the JSON preview, add a collapsible form for:
+
+Net Position (Assets, Liabilities)
+
+Fund Balances (General, Debt Service)
+
+Revenues (Local, State, Federal)
+
+Expenditures (Instruction, Admin, Debt Service)
+
+Auto-fill these with parsed values
+
+Allow user to correct or enter missing values
+
+Add “Export to JSON” button for edited values
+
+💾 2. Save/Reload Previous Reports
+Store parsed JSON in localStorage using the uploaded filename as the key
+
+Add a dropdown or sidebar section to reload any previously parsed report
+
+Display its contents in the same format as a live upload
+
+🧪 3. Add Developer Debug Panel (Hidden Toggle)
+Floating “🐞 Debug” button in bottom-right
+
+When clicked, shows:
+
+Raw PDF text output
+
+Section match logs (e.g., “✅ Found 'Statement of Net Position'”)
+
+Regex matches or errors
+
+📤 4. Add CSV Export Button
+Next to JSON export, add “Export to CSV”
+
+Flatten the parsed JSON into a single-row CSV with column headers like:
+
+netPosition.totalAssets, revenues.local, etc.
+
+❓ 5. Add Tooltip or Help Icons
+Each major field (Net Position, Revenues, etc.) should have a ? icon
+
+When hovered or clicked, show a short description of what that field represents
+
+Example: “Net Position = Total Assets - Total Liabilities”
+
+🗂️ 6. Add Placeholder Pages for Future Expansion
+In client/src/pages, create these components with basic placeholders:
+
+Dashboard.tsx – (empty for now, but routed)
+
+ISDExplorer.tsx – for manually entered JSONs
+
+TopTaxpayers.tsx – to be added later
+
+CompareYears.tsx – to eventually show multi-year data
+
+Update routing in App.tsx and Header.tsx to include these links in the nav bar.
+
+⚙️ 7. Add a Basic Settings Modal (Optional)
+Include settings like:
+
+Clear all stored reports (localStorage)
+
+Toggle for “Compact JSON” or “Verbose JSON”
+
+Reset to default layout
+
+📁 Final Structure Reminder:
+Don’t change what’s already working — just add or scaffold the new features/components so they can be filled in later.
