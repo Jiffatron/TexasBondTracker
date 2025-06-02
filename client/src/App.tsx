@@ -7,6 +7,7 @@ import Dashboard from "@/pages/Dashboard";
 import BondTracker from "@/pages/BondTracker";
 import SchoolDistricts from "@/pages/SchoolDistricts";
 import CitiesCounties from "@/pages/CitiesCounties";
+import AuditParser from "@/pages/AuditParser";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -17,6 +18,7 @@ function Router() {
       <Route path="/bonds" component={BondTracker} />
       <Route path="/isds" component={SchoolDistricts} />
       <Route path="/cities" component={CitiesCounties} />
+      <Route path="/audit-parser" component={AuditParser} />
       <Route component={NotFound} />
     </Switch>
   );
