@@ -6,18 +6,21 @@ import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 const repoName = "TexasBondTracker";
 
 export default defineConfig(async () => {
+  const isProd = process.env.NODE_ENV === "production";
+  const isReplit = process.env.REPL_ID !== undefined;
+
   const plugins = [
     react(),
     runtimeErrorOverlay(),
   ];
 
-  if (process.env.NODE_ENV !== "production" && process.env.REPL_ID !== undefined) {
+  if (!isProd && isReplit) {
     const { cartographer } = await import("@replit/vite-plugin-cartographer");
     plugins.push(cartographer());
   }
 
   return {
-    base: `/${repoName}/`,
+    base: isProd ? `/${repoName}/` : "/",  
     plugins,
     resolve: {
       alias: {
@@ -28,8 +31,12 @@ export default defineConfig(async () => {
     },
     root: path.resolve(import.meta.dirname, "client"),
     build: {
-      outDir: path.resolve(import.meta.dirname, "docs"), // ✅ Deploy-ready folder
+      outDir: path.resolve(import.meta.dirname, "docs"),
       emptyOutDir: true,
+    },
+    server: {
+      port: 5173,
+      open: true,
     },
   };
 });
