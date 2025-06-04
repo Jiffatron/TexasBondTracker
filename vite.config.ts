@@ -1,42 +1,26 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import path from "path";
-import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import { fileURLToPath } from 'url';
+import { dirname, resolve } from 'path';
 
-const repoName = "TexasBondTracker";
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-export default defineConfig(async () => {
-  const isProd = process.env.NODE_ENV === "production";
-  const isReplit = process.env.REPL_ID !== undefined;
+const repoName = 'TexasBondTracker';
 
-  const plugins = [
-    react(),
-    runtimeErrorOverlay(),
-  ];
-
-  if (!isProd && isReplit) {
-    const { cartographer } = await import("@replit/vite-plugin-cartographer");
-    plugins.push(cartographer());
-  }
-
-  return {
-    base: isProd ? `/${repoName}/` : "/",  
-    plugins,
-    resolve: {
-      alias: {
-        "@": path.resolve(import.meta.dirname, "client", "src"),
-        "@shared": path.resolve(import.meta.dirname, "shared"),
-        "@assets": path.resolve(import.meta.dirname, "attached_assets"),
-      },
+export default defineConfig({
+  root: resolve(__dirname, 'client'),
+  base: `/${repoName}/`,
+  plugins: [react()],
+  resolve: {
+    alias: {
+      '@': resolve(__dirname, 'client', 'src'),
+      '@shared': resolve(__dirname, 'shared'),
+      '@assets': resolve(__dirname, 'attached_assets'),
     },
-    root: path.resolve(import.meta.dirname, "client"),
-    build: {
-      outDir: path.resolve(import.meta.dirname, "docs"),
-      emptyOutDir: true,
-    },
-    server: {
-      port: 5173,
-      open: true,
-    },
-  };
+  },
+  build: {
+    outDir: resolve(__dirname, 'docs'), // output to /docs for GitHub Pages
+    emptyOutDir: true,
+  },
 });
