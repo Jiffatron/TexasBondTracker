@@ -3,8 +3,7 @@ import react from "@vitejs/plugin-react";
 import path from "path";
 import runtimeErrorOverlay from "@replit/vite-plugin-runtime-error-modal";
 
-// Set your GitHub repo name here
-const repoName = "texasbondtrackerdeploy";
+const repoName = "TexasBondTracker";
 
 export default defineConfig(async () => {
   const plugins = [
