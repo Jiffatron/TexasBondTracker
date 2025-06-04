@@ -9,7 +9,9 @@ const __dirname = dirname(__filename);
 const repoName = 'TexasBondTracker';
 
 export default defineConfig({
+ 
   root: resolve(__dirname, 'client'),
+
   base: `/${repoName}/`,
   plugins: [react()],
   resolve: {
@@ -20,7 +22,7 @@ export default defineConfig({
     },
   },
   build: {
-    outDir: resolve(__dirname, 'docs'), // output to /docs for GitHub Pages
+    outDir: resolve(__dirname, 'docs'), 
     emptyOutDir: true,
   },
 });
