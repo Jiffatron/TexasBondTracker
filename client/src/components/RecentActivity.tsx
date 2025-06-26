@@ -1,32 +1,11 @@
-import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { IssuanceActivity } from "@shared/schema";
+import { useJsonData } from "@/hooks/useAutoRefresh";
 
 export default function RecentActivity() {
-  const [activities, setActivities] = useState<IssuanceActivity[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
   const base = import.meta.env.BASE_URL;
-
-  useEffect(() => {
-    const loadActivities = async () => {
-      try {
-        const res = await fetch(`${base}data/activities.json`);
-        if (!res.ok) {
-          console.error("Failed to fetch activities:", res.status);
-          return;
-        }
-        const data: IssuanceActivity[] = await res.json();
-        setActivities(data.slice(0, 5)); // Limit to 5 items
-      } catch (err) {
-        console.error("Error loading activities:", err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    loadActivities();
-  }, [base]);
+  const { data: activities, isLoading } = useJsonData<IssuanceActivity>(`${base}data/activities.json`);
 
   const getActivityIcon = (type: string) => {
     switch (type) {
@@ -87,7 +66,7 @@ export default function RecentActivity() {
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
-          {activities.map((activity) => (
+          {activities.slice(0, 5).map((activity) => (
             <div key={activity.id} className="flex items-start space-x-3">
               <div className={`flex-shrink-0 ${getActivityIcon(activity.activityType)} mt-2`}></div>
               <div className="flex-1">

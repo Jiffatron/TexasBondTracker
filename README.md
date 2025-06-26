@@ -63,7 +63,7 @@ The build output will be in the `dist/public` directory, ready for GitHub Pages 
 
 ## Usage
 
-1. **Upload PDF**: Select a Texas ISD audit PDF file (max 10MB)
+1. **Upload PDF**: Select a Texas ISD audit PDF file (max 50MB)
 2. **Review Data**: Check extracted financial information
 3. **Manual Corrections**: Use the collapsible form to edit any values
 4. **Export**: Download data as JSON or CSV
@@ -72,7 +72,7 @@ The build output will be in the `dist/public` directory, ready for GitHub Pages 
 ## Security & Validation
 
 - File type validation (PDF only)
-- File size limits (10MB maximum)
+- File size limits (50MB maximum)
 - Input sanitization for numeric fields
 - No external API dependencies
 - Client-side processing only

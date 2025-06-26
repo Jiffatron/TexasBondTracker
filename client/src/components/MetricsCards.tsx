@@ -11,6 +11,8 @@ export default function MetricsCards() {
 
   useEffect(() => {
     const loadMetrics = async () => {
+      // Add timestamp to prevent caching during development
+      const timestamp = process.env.NODE_ENV === 'development' ? `?t=${Date.now()}` : '';
       try {
         // Load multiple municipality files if they exist
         const municipalityFiles = ['municipalities.json', 'municipalities-2024.json', 'municipalities-extra.json'];
@@ -22,7 +24,7 @@ export default function MetricsCards() {
         // Load all municipality files
         for (const file of municipalityFiles) {
           try {
-            const res = await fetch(`${base}data/${file}`);
+            const res = await fetch(`${base}data/${file}${timestamp}`);
             if (res.ok) {
               const data = await res.json();
               allMunicipalities = allMunicipalities.concat(data);
@@ -36,7 +38,7 @@ export default function MetricsCards() {
         // Load all bond files for YTD calculation
         for (const file of bondFiles) {
           try {
-            const res = await fetch(`${base}data/${file}`);
+            const res = await fetch(`${base}data/${file}${timestamp}`);
             if (res.ok) {
               const data = await res.json();
               allBonds = allBonds.concat(data);

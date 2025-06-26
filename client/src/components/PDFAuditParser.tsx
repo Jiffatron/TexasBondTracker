@@ -42,10 +42,10 @@ export default function PDFAuditParser() {
       return;
     }
 
-    // Validate file size (10MB limit)
-    const maxSize = 10 * 1024 * 1024; // 10MB in bytes
+    // Validate file size (50MB limit)
+    const maxSize = 50 * 1024 * 1024; // 50MB in bytes
     if (file.size > maxSize) {
-      setError('File size must be less than 10MB.');
+      setError('File size must be less than 50MB.');
       return;
     }
 
@@ -123,6 +123,19 @@ export default function PDFAuditParser() {
     setExtractedData(data);
     setSelectedFile(null);
     setError(null);
+  };
+
+  const handleExportDebug = () => {
+    parser.exportDebugData();
+  };
+
+  const handleCopyDebug = async () => {
+    await parser.copyDebugToClipboard();
+  };
+
+  const handleSendDebug = async () => {
+    // You can replace this URL with your own webhook
+    await parser.sendDebugData('https://webhook.site/your-unique-url');
   };
 
   const formatCurrency = (amount: number) => {
@@ -245,6 +258,14 @@ export default function PDFAuditParser() {
                 <Button onClick={handleExportCSV} variant="outline" size="sm">
                   <i className="fas fa-file-csv mr-2"></i>
                   Export CSV
+                </Button>
+                <Button onClick={handleExportDebug} variant="outline" size="sm" title="Export debug data for analysis">
+                  <i className="fas fa-bug mr-2"></i>
+                  Debug Data
+                </Button>
+                <Button onClick={handleCopyDebug} variant="outline" size="sm" title="Copy debug data to clipboard">
+                  <i className="fas fa-copy mr-2"></i>
+                  Copy Debug
                 </Button>
               </div>
             </div>
