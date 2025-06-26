@@ -9,10 +9,10 @@ const __dirname = dirname(__filename);
 const repoName = 'TexasBondTracker';
 
 export default defineConfig({
- 
+
   root: resolve(__dirname, 'client'),
 
-  base: `/${repoName}/`,
+  base: process.env.NODE_ENV === 'production' ? `/${repoName}/` : '/',
   plugins: [react()],
   resolve: {
     alias: {

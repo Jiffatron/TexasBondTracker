@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "municipalityId": 1,
+    "title": "Houston ISD issued $125M GO bonds",
+    "description": "General obligation bonds for new school construction",
+    "amount": "125000000",
+    "activityType": "issuance",
+    "timestamp": "2025-06-26T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "municipalityId": 2,
+    "title": "Austin rating upgraded to AAA",
+    "description": "Credit rating upgrade by Moody's",
+    "activityType": "rating_change",
+    "timestamp": "2025-06-26T08:00:00.000Z",
+    "amount": null
+  }
+]

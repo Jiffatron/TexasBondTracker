@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "cusip": "442654JZ1",
+    "issuerId": 1,
+    "issuerName": "Houston ISD",
+    "parAmount": "15000000",
+    "couponRate": "4.125",
+    "maturityDate": "2034-02-15",
+    "issueDate": "2024-03-15",
+    "bondType": "GO",
+    "yield": "4.250",
+    "creditRating": "AA",
+    "purpose": "School Construction",
+    "callDate": null
+  },
+  {
+    "id": 2,
+    "cusip": "064058BV8",
+    "issuerId": 2,
+    "issuerName": "City of Austin",
+    "parAmount": "25000000",
+    "couponRate": "3.875",
+    "maturityDate": "2029-08-15",
+    "issueDate": "2024-01-20",
+    "bondType": "Revenue",
+    "yield": "3.950",
+    "creditRating": "AAA",
+    "purpose": "Water Utility Infrastructure",
+    "callDate": null
+  }
+]

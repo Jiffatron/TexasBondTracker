@@ -1,15 +1,32 @@
-import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { IssuanceActivity } from "@shared/schema";
 
 export default function RecentActivity() {
-  const { data: activities = [], isLoading } = useQuery<IssuanceActivity[]>({
-    queryKey: ["/api/activities"],
-    meta: {
-      params: { limit: 5 }
-    }
-  });
+  const [activities, setActivities] = useState<IssuanceActivity[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const base = import.meta.env.BASE_URL;
+
+  useEffect(() => {
+    const loadActivities = async () => {
+      try {
+        const res = await fetch(`${base}data/activities.json`);
+        if (!res.ok) {
+          console.error("Failed to fetch activities:", res.status);
+          return;
+        }
+        const data: IssuanceActivity[] = await res.json();
+        setActivities(data.slice(0, 5)); // Limit to 5 items
+      } catch (err) {
+        console.error("Error loading activities:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadActivities();
+  }, [base]);
 
   const getActivityIcon = (type: string) => {
     switch (type) {

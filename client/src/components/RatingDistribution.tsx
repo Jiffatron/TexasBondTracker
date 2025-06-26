@@ -1,11 +1,41 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
+import { Municipality } from "@shared/schema";
 
 export default function RatingDistribution() {
-  const { data: distribution = {}, isLoading } = useQuery({
-    queryKey: ["/api/dashboard/rating-distribution"],
-  });
+  const [distribution, setDistribution] = useState<Record<string, number>>({});
+  const [isLoading, setIsLoading] = useState(true);
+  const base = import.meta.env.BASE_URL;
+
+  useEffect(() => {
+    const loadRatingDistribution = async () => {
+      try {
+        const res = await fetch(`${base}data/municipalities.json`);
+        if (!res.ok) {
+          console.error("Failed to fetch municipalities:", res.status);
+          return;
+        }
+        const municipalities: Municipality[] = await res.json();
+
+        // Calculate rating distribution
+        const ratingCounts: Record<string, number> = {};
+        municipalities.forEach(m => {
+          if (m.creditRating) {
+            ratingCounts[m.creditRating] = (ratingCounts[m.creditRating] || 0) + 1;
+          }
+        });
+
+        setDistribution(ratingCounts);
+      } catch (err) {
+        console.error("Error loading rating distribution:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadRatingDistribution();
+  }, [base]);
 
   // Transform the data for display
   const ratingData = [

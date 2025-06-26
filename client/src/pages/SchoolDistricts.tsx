@@ -1,13 +1,33 @@
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import Header from "@/components/Header";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Municipality } from "@shared/schema";
 
 export default function SchoolDistricts() {
-  const { data: municipalities = [], isLoading } = useQuery<Municipality[]>({
-    queryKey: ["/api/municipalities"],
-  });
+  const [municipalities, setMunicipalities] = useState<Municipality[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const base = import.meta.env.BASE_URL;
+
+  useEffect(() => {
+    const loadMunicipalities = async () => {
+      try {
+        const res = await fetch(`${base}data/municipalities.json`);
+        if (!res.ok) {
+          console.error("Failed to fetch municipalities:", res.status);
+          return;
+        }
+        const data: Municipality[] = await res.json();
+        setMunicipalities(data);
+      } catch (err) {
+        console.error("Error loading municipalities:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadMunicipalities();
+  }, [base]);
 
   const schoolDistricts = municipalities.filter(m => m.type === "school_district");
 

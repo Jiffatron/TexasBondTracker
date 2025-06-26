@@ -1,0 +1,41 @@
+[
+  {
+    "id": 1,
+    "name": "Houston ISD",
+    "type": "school_district",
+    "county": "Harris County",
+    "region": "Gulf Coast",
+    "outstandingDebt": "4200000000",
+    "creditRating": "AA",
+    "lastIssuanceDate": "2024-03-15",
+    "taxpayerBase": 850000,
+    "perCapitaDebt": "4941.18",
+    "population": 850000
+  },
+  {
+    "id": 2,
+    "name": "City of Austin",
+    "type": "city",
+    "county": "Travis County",
+    "region": "Central Texas",
+    "outstandingDebt": "3800000000",
+    "creditRating": "AAA",
+    "lastIssuanceDate": "2024-01-20",
+    "taxpayerBase": 980000,
+    "perCapitaDebt": "3877.55",
+    "population": 980000
+  },
+  {
+    "id": 3,
+    "name": "Dallas ISD",
+    "type": "school_district",
+    "county": "Dallas County",
+    "region": "North Texas",
+    "outstandingDebt": "3100000000",
+    "creditRating": "A+",
+    "lastIssuanceDate": "2024-02-10",
+    "taxpayerBase": 1340000,
+    "perCapitaDebt": "2313.43",
+    "population": 1340000
+  }
+]

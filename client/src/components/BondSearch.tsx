@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useState, useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -15,9 +14,29 @@ export default function BondSearch() {
     yieldRange: "",
   });
 
-  const { data: bonds = [], isLoading } = useQuery<Bond[]>({
-    queryKey: ["/api/bonds"],
-  });
+  const [bonds, setBonds] = useState<Bond[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const base = import.meta.env.BASE_URL;
+
+  useEffect(() => {
+    const loadBonds = async () => {
+      try {
+        const res = await fetch(`${base}data/bonds.json`);
+        if (!res.ok) {
+          console.error("Failed to fetch bonds:", res.status);
+          return;
+        }
+        const data: Bond[] = await res.json();
+        setBonds(data);
+      } catch (err) {
+        console.error("Error loading bonds:", err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadBonds();
+  }, [base]);
 
   // Filter bonds based on search criteria
   const filteredBonds = bonds.filter(bond => {
