@@ -4,22 +4,41 @@
 
 The PDF parser now captures detailed debug information including:
 - ✅ **All parsing steps** with timestamps
-- ✅ **Section detection results** 
+- ✅ **Section detection results**
 - ✅ **Amount extraction attempts**
 - ✅ **Full extracted text** from PDF
 - ✅ **Final parsing results**
 - ✅ **Error messages and warnings**
+- ✅ **Debug history viewer** with easy access to past sessions
+
+## 📁 **Where Debug Files Go:**
+
+### **Downloaded Files:**
+- **Location**: Your browser's default download folder (usually `Downloads`)
+- **Filename**: `debug_[DistrictName]_[Timestamp].json`
+- **Example**: `debug_Houston_ISD_2024-01-15T10-30-00.json`
+
+### **Browser Storage:**
+- **Location**: Saved in your browser's localStorage
+- **Access**: View in the **"Debug History"** section at the bottom of the page
+- **Limit**: Keeps last 10 debug sessions automatically
 
 ## 📤 **How to Get Debug Data:**
 
-### **Option 1: Export to File (Easiest)**
+### **Option 1: Export to File (Recommended)**
 1. Upload and parse a PDF
 2. Click **"Debug Data"** button
-3. Downloads a JSON file with all debug info
+3. File downloads to your Downloads folder
 4. Send the file to whoever needs to review it
 
-### **Option 2: Copy to Clipboard**
-1. Upload and parse a PDF  
+### **Option 2: View Debug History**
+1. Scroll down to **"Debug History"** section
+2. See all your past parsing sessions
+3. Click any session to view details
+4. Click **"Export"** to download that specific session
+
+### **Option 3: Copy to Clipboard**
+1. Upload and parse a PDF
 2. Click **"Copy Debug"** button
 3. Paste into email, Slack, etc.
 

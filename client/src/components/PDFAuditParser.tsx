@@ -12,6 +12,7 @@ import { ExtractedFinancialData } from "@/types";
 import ManualEntryForm from "./ManualEntryForm";
 import PreviousReports from "./PreviousReports";
 import DebugPanel from "./DebugPanel";
+import DebugHistory from "./DebugHistory";
 import SettingsModal from "./SettingsModal";
 
 interface DebugInfo {
@@ -131,11 +132,6 @@ export default function PDFAuditParser() {
 
   const handleCopyDebug = async () => {
     await parser.copyDebugToClipboard();
-  };
-
-  const handleSendDebug = async () => {
-    // You can replace this URL with your own webhook
-    await parser.sendDebugData('https://webhook.site/your-unique-url');
   };
 
   const formatCurrency = (amount: number) => {
@@ -405,6 +401,9 @@ export default function PDFAuditParser() {
 
       {/* Debug Panel */}
       <DebugPanel debugInfo={debugInfo} />
+
+      {/* Debug History */}
+      <DebugHistory />
     </div>
     </TooltipProvider>
   );

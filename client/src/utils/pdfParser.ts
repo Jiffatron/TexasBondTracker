@@ -452,55 +452,61 @@ export class AuditPDFParser {
     return patterns;
   }
 
-  // Method to export debug data as JSON
+  // Method to export debug data as JSON to a specific location
   exportDebugData(): void {
     const debugData = this.getDebugInfo();
     const jsonString = JSON.stringify(debugData, null, 2);
+
+    // Create a more organized filename with district name if available
+    const districtName = this.parsingResults?.districtName || 'unknown_district';
+    const timestamp = new Date().toISOString().slice(0, 19).replace(/[:.]/g, '-');
+    const filename = `debug_${districtName.replace(/[^a-zA-Z0-9]/g, '_')}_${timestamp}.json`;
+
     const blob = new Blob([jsonString], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
 
-    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
     const link = document.createElement('a');
     link.href = url;
-    link.download = `pdf_parser_debug_${timestamp}.json`;
+    link.download = filename;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
 
-    this.debugLog('📁 Debug data exported to file');
+    this.debugLog(`📁 Debug data exported: ${filename}`);
+
+    // Also save to localStorage for easy access
+    this.saveDebugToLocalStorage(debugData, filename);
   }
 
-  // Method to send debug data to a webhook/API endpoint
-  async sendDebugData(webhookUrl?: string): Promise<void> {
-    const debugData = this.getDebugInfo();
-
-    // Default webhook URL (you can change this)
-    const defaultWebhook = 'https://webhook.site/your-unique-url'; // Replace with your URL
-    const url = webhookUrl || defaultWebhook;
-
+  // Save debug data to localStorage for easy access
+  private saveDebugToLocalStorage(debugData: any, filename: string): void {
     try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          type: 'pdf_parser_debug',
-          timestamp: new Date().toISOString(),
-          data: debugData
-        })
+      const debugHistory = JSON.parse(localStorage.getItem('pdfParserDebugHistory') || '[]');
+
+      // Add new debug session
+      debugHistory.unshift({
+        filename,
+        timestamp: new Date().toISOString(),
+        districtName: debugData.parsingResults?.districtName || 'Unknown',
+        textLength: debugData.extractedTextLength,
+        sectionsFound: debugData.sectionsFound.length,
+        data: debugData
       });
 
-      if (response.ok) {
-        this.debugLog('📤 Debug data sent successfully to webhook');
-      } else {
-        this.debugLog(`❌ Failed to send debug data: ${response.status}`);
+      // Keep only last 10 debug sessions
+      if (debugHistory.length > 10) {
+        debugHistory.splice(10);
       }
+
+      localStorage.setItem('pdfParserDebugHistory', JSON.stringify(debugHistory));
+      this.debugLog('💾 Debug data also saved to browser storage');
     } catch (error) {
-      this.debugLog(`❌ Error sending debug data: ${error}`);
+      this.debugLog(`⚠️ Could not save to localStorage: ${error}`);
     }
   }
+
+
 
   // Method to copy debug data to clipboard
   async copyDebugToClipboard(): Promise<void> {
@@ -512,6 +518,40 @@ export class AuditPDFParser {
       this.debugLog('📋 Debug data copied to clipboard');
     } catch (error) {
       this.debugLog(`❌ Failed to copy to clipboard: ${error}`);
+    }
+  }
+
+  // Get debug history from localStorage
+  static getDebugHistory(): any[] {
+    try {
+      return JSON.parse(localStorage.getItem('pdfParserDebugHistory') || '[]');
+    } catch (error) {
+      console.error('Error loading debug history:', error);
+      return [];
+    }
+  }
+
+  // Clear debug history
+  static clearDebugHistory(): void {
+    localStorage.removeItem('pdfParserDebugHistory');
+  }
+
+  // Export specific debug session from history
+  static exportDebugFromHistory(index: number): void {
+    const history = this.getDebugHistory();
+    if (history[index]) {
+      const session = history[index];
+      const jsonString = JSON.stringify(session.data, null, 2);
+      const blob = new Blob([jsonString], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+
+      const link = document.createElement('a');
+      link.href = url;
+      link.download = session.filename;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
     }
   }
 
